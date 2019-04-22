@@ -20,11 +20,21 @@
         android:id="@+id/logoutButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/textView"
+        android:layout_alignStart="@+id/textView"
         android:layout_below="@+id/textView"
-        android:layout_marginEnd="82dp"
-        android:layout_marginTop="23dp"
+        android:layout_marginStart="83dp"
+        android:layout_marginTop="94dp"
         android:text="Logout" />
+
+    <EditText
+        android:id="@+id/displayEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/logoutButton"
+        android:layout_below="@+id/logoutButton"
+        android:layout_marginTop="50dp"
+        android:text="Details" />
+
 
 
 </RelativeLayout>

@@ -7,6 +7,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.acer.demoproject.Model.User;
+
 /**
  * Created by Acer on 4/22/2019.
  */
@@ -24,6 +26,13 @@ public class register extends AppCompatActivity{
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String name = nameEditText.getText().toString().trim();
+                String address = addressEditText.getText().toString().trim();
+                String username = unameEditText.getText().toString().trim();
+                String password = pwEditText.getText().toString().trim();
+
+                User registeredUser = new User(name,address,username,password);
+
 
             }
         });

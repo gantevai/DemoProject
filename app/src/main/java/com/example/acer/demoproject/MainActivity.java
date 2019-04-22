@@ -9,11 +9,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.acer.demoproject.Model.User;
+import com.example.acer.demoproject.Model.UserLocalStore;
+
 public class MainActivity extends AppCompatActivity {
 
     Button loginBtn;
     EditText unameEditText,pwEditText;
     TextView registerLink;
+    UserLocalStore userLocalStore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,13 +29,17 @@ public class MainActivity extends AppCompatActivity {
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 String uname, pw;
                 uname = unameEditText.getText().toString().trim();
                 pw = pwEditText.getText().toString().trim();
-                if(uname == "" || pw == ""){
+                if(uname == " " || pw == " "){
                     Toast.makeText(getApplicationContext(),"Field should not be empty",Toast.LENGTH_SHORT).show();
                 }
                 else{
+                    User user = new User(null,null);
+                    userLocalStore.setUserLoggedIn(true);
+                    userLocalStore.storeUserData(user);
 
                 }
 
@@ -52,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         unameEditText = (EditText) findViewById(R.id.unameEditText);
         pwEditText = (EditText) findViewById(R.id.pwEditText);
         registerLink = (TextView) findViewById(R.id.registerlinkTextView);
+        userLocalStore = new UserLocalStore(this);
     }
 
 }
