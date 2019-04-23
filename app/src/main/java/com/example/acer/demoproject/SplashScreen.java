@@ -9,6 +9,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
+import com.example.acer.demoproject.AccountActivity.LoginActivity;
+
 /**
  * Created by Acer on 4/21/2019.
  */
@@ -30,7 +32,7 @@ public class SplashScreen extends AppCompatActivity{
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent in = new Intent(SplashScreen.this,MainActivity.class);
+                Intent in = new Intent(SplashScreen.this,LoginActivity.class);
                 startActivity(in);
                 finish();
 

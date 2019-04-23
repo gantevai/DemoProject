@@ -6,61 +6,62 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.acer.demoproject.AccountActivity.LoginActivity;
 import com.example.acer.demoproject.Model.User;
 import com.example.acer.demoproject.Model.UserLocalStore;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button loginBtn;
-    EditText unameEditText,pwEditText;
-    TextView registerLink;
+    Button logoutBtn;
+    EditText display;
     UserLocalStore userLocalStore;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onStart(){
+        super.onStart();
+        if(authenticate()==true)
+            displayUserDetails();
+    }
+
+    private boolean authenticate() {
+        return userLocalStore.getUserLoggedIn();
+    }
+
+    private void displayUserDetails(){
+        User user = userLocalStore.getLoggedInUser();
+
+        display.setText("hi user");
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         initialize();
 
-        loginBtn.setOnClickListener(new View.OnClickListener() {
+        Intent intent = getIntent();
+        String name = intent.getStringExtra("name");
+        String username = intent.getStringExtra("username");
+        String address = intent.getStringExtra("address");
+
+        display.setText(name+" Welcome to home page "+username+" from "+address);
+
+        logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                userLocalStore.clearUserData();
+                userLocalStore.setUserLoggedIn(false);
 
-                String uname, pw;
-                uname = unameEditText.getText().toString().trim();
-                pw = pwEditText.getText().toString().trim();
-                if(uname == " " || pw == " "){
-                    Toast.makeText(getApplicationContext(),"Field should not be empty",Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    User user = new User(null,null);
-                    userLocalStore.setUserLoggedIn(true);
-                    userLocalStore.storeUserData(user);
-
-                }
-
-
-            }
-        });
-
-        registerLink.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this,register.class));
+                startActivity(new Intent(MainActivity.this,LoginActivity.class));
             }
         });
     }
 
     private void initialize() {
-        loginBtn = (Button) findViewById(R.id.loginButton);
-        unameEditText = (EditText) findViewById(R.id.unameEditText);
-        pwEditText = (EditText) findViewById(R.id.pwEditText);
-        registerLink = (TextView) findViewById(R.id.registerlinkTextView);
+        logoutBtn = (Button) findViewById(R.id.logoutButton);
         userLocalStore = new UserLocalStore(this);
+        display = (EditText) findViewById(R.id.displayEditText);
     }
-
 }

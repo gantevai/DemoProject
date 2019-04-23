@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:padding="10dp"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundColor">
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="47dp"
+        android:src="@mipmap/logo"
+        android:id="@+id/imageView" />
+
+
+    <EditText
+        android:id="@+id/unameEditText"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/imageView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="52dp"
+        android:hint="Username"
+        android:textSize="18sp"
+        android:drawableLeft="@drawable/ic_action_username"
+        android:textColor="@color/colorText1"
+        android:background="@color/editTextBackgroundColor"/>
+
+    <EditText
+        android:id="@+id/pwEditText"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_alignStart="@+id/unameEditText"
+        android:layout_below="@+id/unameEditText"
+        android:layout_marginTop="25dp"
+        android:inputType="textPassword"
+        android:drawableLeft="@drawable/ic_action_name"
+        android:hint="Password"
+        android:textColor="@color/colorText1"
+        android:textSize="18sp"
+        android:background="@color/editTextBackgroundColor"/>
+
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="100dp"
+        android:layout_height="25dp"
+        android:layout_alignStart="@+id/imageView"
+        android:layout_below="@+id/pwEditText"
+        android:layout_marginTop="31dp"
+        android:text="Login"
+        android:background="@color/colorText2"
+        />
+
+    <TextView
+        android:id="@+id/registerlinkTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/loginButton"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="44dp"
+        android:clickable="true"
+        android:onClick="onClick"
+        android:text="Register Now"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
+</RelativeLayout>
