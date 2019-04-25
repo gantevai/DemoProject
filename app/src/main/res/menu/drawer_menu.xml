@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/dashboard"
+        android:icon="@drawable/ic_dashboard"
+        android:title="@string/dashboard" />
+    <item
+        android:id="@+id/wish_list"
+        android:icon="@drawable/ic_wishlist"
+        android:title="@string/wish_list" />
+    <item
+        android:id="@+id/note"
+        android:icon="@drawable/ic_note"
+        android:title="@string/note" />
+    <item
+        android:id="@+id/settings"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/settings" />
+    <item
+        android:id="@+id/rate_us"
+        android:icon="@drawable/ic_rate_us"
+        android:title="@string/rate_us" />
+    <item
+        android:id="@+id/log_out"
+        android:icon="@drawable/ic_logout"
+        android:title="@string/log_out" />
+</menu>

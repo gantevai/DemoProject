@@ -1,67 +1,156 @@
 package com.example.acer.demoproject;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.acer.demoproject.AccountActivity.LoginActivity;
-import com.example.acer.demoproject.Model.User;
-import com.example.acer.demoproject.Model.UserLocalStore;
+import com.example.acer.demoproject.Adapter.AreaRecyclerViewAdapter;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.ArrayList;
+//import com.example.acer.demoproject.Model.User;
+//import com.example.acer.demoproject.Model.UserLocalStore;
 
-    Button logoutBtn;
-    EditText display;
-    UserLocalStore userLocalStore;
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, NavigationView.OnNavigationItemSelectedListener {
+    // UserLocalStore userLocalStore;
+    DrawerLayout nav_drawerLayout;
+    ActionBarDrawerToggle nav_toggle;
+    Spinner areaSpinner;
+    NavigationView navigationView;
 
-    @Override
-    public void onStart(){
-        super.onStart();
-        if(authenticate()==true)
-            displayUserDetails();
-    }
+    private ArrayList<String> mNames = new ArrayList<>();
+    private ArrayList<String> mImageUrls = new ArrayList<>();
 
-    private boolean authenticate() {
-        return userLocalStore.getUserLoggedIn();
-    }
-
-    private void displayUserDetails(){
-        User user = userLocalStore.getLoggedInUser();
-
-        display.setText("hi user");
-    }
+//    @Override
+//    public void onStart(){
+//        super.onStart();
+//        if(authenticate()==true)
+//            displayUserDetails();
+//    }
+//
+//    private boolean authenticate() {
+//        return userLocalStore.getUserLoggedIn();
+//    }
+//
+//    private void displayUserDetails(){
+//        User user = userLocalStore.getLoggedInUser();
+//
+//        //display.setText("hi user");
+//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        initialize();
-
         Intent intent = getIntent();
         String name = intent.getStringExtra("name");
         String username = intent.getStringExtra("username");
         String address = intent.getStringExtra("address");
 
-        display.setText(name+" Welcome to home page "+username+" from "+address);
+        initSpinner();
+        initNavigationView(name,username);
+        initRecyclerView();
 
-        logoutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                userLocalStore.clearUserData();
-                userLocalStore.setUserLoggedIn(false);
 
-                startActivity(new Intent(MainActivity.this,LoginActivity.class));
-            }
-        });
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.area_StringArray, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        areaSpinner.setAdapter(adapter);
+        areaSpinner.setOnItemSelectedListener(this);
+        navigationView.setNavigationItemSelectedListener(this);     //for navigation view item action
+
+
+
     }
 
-    private void initialize() {
-        logoutBtn = (Button) findViewById(R.id.logoutButton);
-        userLocalStore = new UserLocalStore(this);
-        display = (EditText) findViewById(R.id.displayEditText);
+    private void initSpinner() {
+        //userLocalStore = new UserLocalStore(this);
+        areaSpinner = (Spinner) findViewById(R.id.selectAreaSpinner);
+    }
+
+    private void initNavigationView(String name ,String username){
+        navigationView = (NavigationView) findViewById(R.id.navigation_header_container); //for navigation view item action
+        nav_drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+        nav_toggle = new ActionBarDrawerToggle(this, nav_drawerLayout, R.string.open, R.string.close);
+        nav_drawerLayout.addDrawerListener(nav_toggle);
+        nav_toggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        View navHeader = navigationView.getHeaderView(0);
+        TextView profileName = (TextView)navHeader.findViewById(R.id.profile_name);
+        TextView profileUsername = (TextView)navHeader.findViewById(R.id.profile_username);
+        profileName.setText(name);
+        profileUsername.setText(username);
+    }
+
+    private void initRecyclerView() {
+        int[] images = {R.drawable.religious,R.drawable.historical,R.drawable.natural,R.drawable.adventurous};
+        String[] titles = {"Religious Places","Historical Places","Natural Places","Adventurous Places"};
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        RecyclerView recyclerView = findViewById(R.id.areaRecyclerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        AreaRecyclerViewAdapter adapter = new AreaRecyclerViewAdapter(images,titles);
+        recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (nav_toggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        String itemPosition = adapterView.getItemAtPosition(i).toString();
+        Toast.makeText(adapterView.getContext(), itemPosition, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.dashboard:
+                Toast.makeText(this, "This is dashboard", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.wish_list:
+                Toast.makeText(this, "This is wishlist", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.note:
+                Toast.makeText(this, "This is note", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.settings:
+                Toast.makeText(this, "This is settings", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.rate_us:
+                Toast.makeText(this, "This is rate us", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.log_out:
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                break;
+
+        }
+        return false;
     }
 }

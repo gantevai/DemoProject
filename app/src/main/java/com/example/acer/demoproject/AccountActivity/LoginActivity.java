@@ -15,8 +15,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 import com.example.acer.demoproject.MainActivity;
-import com.example.acer.demoproject.Model.User;
-import com.example.acer.demoproject.Model.UserLocalStore;
+//import com.example.acer.demoproject.Model.User;
+//import com.example.acer.demoproject.Model.UserLocalStore;
 import com.example.acer.demoproject.R;
 
 import org.json.JSONException;
@@ -26,7 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     Button loginBtn;
     EditText unameEditText, pwEditText;
     TextView registerLink;
-    UserLocalStore userLocalStore;
+//    UserLocalStore userLocalStore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +38,9 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                User user = new User(null, null);
-                userLocalStore.setUserLoggedIn(true);
-                userLocalStore.storeUserData(user);
+//                User user = new User(null, null);
+//                userLocalStore.setUserLoggedIn(true);
+//                userLocalStore.storeUserData(user);
 
                 final String username = unameEditText.getText().toString();
                 final String password = pwEditText.getText().toString();
@@ -105,7 +105,7 @@ public class LoginActivity extends AppCompatActivity {
         unameEditText = (EditText) findViewById(R.id.unameEditText);
         pwEditText = (EditText) findViewById(R.id.pwEditText);
         registerLink = (TextView) findViewById(R.id.registerlinkTextView);
-        userLocalStore = new UserLocalStore(this);
+//        userLocalStore = new UserLocalStore(this);
     }
 
 }
