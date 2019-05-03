@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.acer.demoproject">
-
+    <uses-feature android:glEsVersion="0x00020000" android:required="true" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -19,11 +19,14 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+
             </intent-filter>
         </activity>
         <activity android:name=".AccountActivity.register" />
         <activity android:name=".AccountActivity.LoginActivity" />
-        <activity android:name=".Views.RecyclerView" />
+        <activity android:name=".AreaOnClick.PlaceList" />
+        <activity android:name=".AreaOnClick.PlaceDescription" />
+        <activity android:name=".Maps.SearchLocationActivity"></activity>
     </application>
 
 </manifest>

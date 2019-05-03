@@ -1,6 +1,5 @@
 package com.example.acer.demoproject.Adapter;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -11,30 +10,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
-import com.bumptech.glide.Glide;
+import com.example.acer.demoproject.AreaOnClick.PlaceDescription;
 import com.example.acer.demoproject.AreaOnClick.PlaceList;
-import com.example.acer.demoproject.MainActivity;
-import com.example.acer.demoproject.Model.PostAreaRecyclerView;
 import com.example.acer.demoproject.R;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by Acer on 4/25/2019.
  */
 
-public class AreaRecyclerViewAdapter extends RecyclerView.Adapter<AreaRecyclerViewAdapter.ImageViewHolder> {
+public class RecommendedAreaRecyclerViewAdapter extends RecyclerView.Adapter<RecommendedAreaRecyclerViewAdapter.ImageViewHolder> {
 
-    private static final String TAG = "AreaRecyclerViewAdapter";  // for debugging
+    private static final String TAG = "RecommendedAdapter";  // for debugging
 
     private int[] images;
     private String[] titles;
 
-    public AreaRecyclerViewAdapter(int[] images,String[] titles) {
+    public RecommendedAreaRecyclerViewAdapter(int[] images, String[] titles) {
         this.images = images;
         this.titles = titles;
     }
@@ -43,7 +34,7 @@ public class AreaRecyclerViewAdapter extends RecyclerView.Adapter<AreaRecyclerVi
     public ImageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Log.d(TAG,"onCreateViewHolder:called");
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.area_list,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recommended_arealist,parent,false);
         return new ImageViewHolder(view);
     }
 
@@ -52,7 +43,7 @@ public class AreaRecyclerViewAdapter extends RecyclerView.Adapter<AreaRecyclerVi
         Log.d(TAG,"onBindViewHolder:called");
         int image_id = images[position];
         final String title_name = titles[position];
-        holder.circleImage.setImageResource(image_id);
+        holder.image.setImageResource(image_id);
         holder.title.setText(title_name);
 
 //        final PostAreaRecyclerView p = postList.get(position);
@@ -64,13 +55,12 @@ public class AreaRecyclerViewAdapter extends RecyclerView.Adapter<AreaRecyclerVi
 //
 //        holder.name.setText(p.mNames);
 
-        holder.circleImage.setOnClickListener(new View.OnClickListener() {
+        holder.image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d(TAG,"onClick: clicked on an image" +title_name);
                 Toast.makeText(v.getContext(),title_name,Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(v.getContext(), PlaceList.class);
-                intent.putExtra("area_category",title_name);
+                Intent intent = new Intent(v.getContext(), PlaceDescription.class);
                 v.getContext().startActivity(intent);
             }
         });
@@ -82,12 +72,12 @@ public class AreaRecyclerViewAdapter extends RecyclerView.Adapter<AreaRecyclerVi
     }
 
     public class ImageViewHolder extends RecyclerView.ViewHolder{
-        ImageView circleImage;
+        ImageView image;
         TextView title;
 
         public ImageViewHolder(View itemView){
             super(itemView);
-            circleImage = itemView.findViewById(R.id.areaImageView);
+            image = itemView.findViewById(R.id.areaImageView);
             title = itemView.findViewById(R.id.areaTextView);
         }
     }

@@ -24,11 +24,30 @@
 
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/areaRecyclerView"
             android:orientation="horizontal"
+
             android:scrollbars="horizontal"
             android:layout_below="@id/selectAreaSpinner"
+            >
+
+        </android.support.v7.widget.RecyclerView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/areaRecyclerView"
+            android:layout_margin="10dp"
+            android:id="@+id/recommendAreaTextView"
+            android:text="@string/recommended_area"
+            android:textColor="@color/colorText1"
+            android:textSize="20sp"
+            />
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/recommendAreaTextView"
+            android:id="@+id/recommendedAreaRecyclerView"
             >
 
         </android.support.v7.widget.RecyclerView>
@@ -42,8 +61,8 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:background="@color/backgroundColor"
-        app:itemTextColor="@color/colorPrimaryDark"
-        app:itemIconTint="@color/colorPrimaryDark"
+        app:itemTextColor="@color/colorText2"
+        app:itemIconTint="@color/colorText2"
         app:menu="@menu/drawer_menu"
         android:layout_gravity="start">
 
