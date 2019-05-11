@@ -13,6 +13,7 @@ import android.widget.*;
 import com.example.acer.demoproject.Adapter.PlaceDescriptionSliderAdapter;
 import com.example.acer.demoproject.Adapter.RecommendedAreaRecyclerViewAdapter;
 import com.example.acer.demoproject.Adapter.RelatedAreaRecyclerViewAdapter;
+import com.example.acer.demoproject.GoogleMaps.GoogleMapsActivity;
 import com.example.acer.demoproject.Maps.SearchLocationActivity;
 import com.example.acer.demoproject.R;
 
@@ -26,7 +27,7 @@ public class PlaceDescription extends AppCompatActivity {
     private Button nextBtn;
     private Button backBtn;
     private RatingBar ratingBar;
-    private Button getlocationBtn;
+    private Button getlocationBtn,getlocationBtn2;
     private TextView place_description_heading;
 
     private int currentPage;
@@ -73,6 +74,14 @@ public class PlaceDescription extends AppCompatActivity {
                 v.getContext().startActivity(intent);
             }
         });
+        getlocationBtn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), GoogleMapsActivity.class);
+                intent.putExtra("address",place_description_heading.getText());
+                v.getContext().startActivity(intent);
+            }
+        });
 
     }
 
@@ -105,6 +114,7 @@ public class PlaceDescription extends AppCompatActivity {
         nextBtn = (Button) findViewById(R.id.nextBtn);
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
         getlocationBtn = (Button) findViewById(R.id.getlocationBtn);
+        getlocationBtn2 = (Button) findViewById(R.id.getlocationBtn2);
         place_description_heading = (TextView) findViewById(R.id.place_description_heading);
     }
 

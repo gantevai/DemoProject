@@ -80,22 +80,34 @@
         android:textSize="12sp"
         android:background="@color/colorText2"/>
 
+    <Button
+        android:id="@+id/getlocationBtn2"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/getlocationBtn"
+        android:background="@color/colorText2"
+        android:text="googleLocation"
+        android:textSize="12sp" />
+
     <TextView
+        android:id="@+id/related_placesTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18dp"
-        android:id="@+id/related_placesTextView"
-        android:layout_below="@id/ratingBar"
+        android:layout_above="@+id/related_placesRecyclerView"
+        android:layout_alignParentStart="true"
         android:text="Related Places"
+        android:textAlignment="center"
         android:textColor="@color/colorText1"
-        android:textAlignment="center"/>
+        android:textSize="18dp" />
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/related_placesRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/related_placesRecyclerView"
-        android:layout_below="@id/related_placesTextView"
-        >
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="12dp">
 
     </android.support.v7.widget.RecyclerView>
 

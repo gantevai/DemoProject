@@ -12,6 +12,10 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="recommended_area">Recommended Places</string>
+    <string name="google_maps_key">AIzaSyDu-eh2-VVUEZFb4jeybGJ5yaYEG06XtDQ</string>
+    <string name="google_maps_key3">AIzaSyD8f6mP376FeFSLxgRmX06eVHelfMscGGo</string>
+    <string name="google_maps_key2">AIzaSyDxgNUD8rHGigLfwhSmErhNQuPYHsbe9-w</string>
+
     <string-array name="area_StringArray">
         <item>Kathmandu</item>
         <item>Bhaktapur</item>
