@@ -16,13 +16,28 @@
         android:textSize="18dp"
         android:id="@+id/area_category_heading"/>
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_below="@+id/area_category_heading">
+
+    </android.support.v7.widget.Toolbar>
+
+    <com.miguelcatalan.materialsearchview.MaterialSearchView
+        android:id="@+id/search_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/area_category_heading"
+        />
+
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/place_list_recyclerview"
         android:orientation="vertical"
         android:scrollbars="none"
-        android:layout_below="@+id/area_category_heading"
+        android:layout_below="@+id/search_view"
         >
 
     </android.support.v7.widget.RecyclerView>

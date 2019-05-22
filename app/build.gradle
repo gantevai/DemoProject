@@ -53,4 +53,7 @@ dependencies {
     compile 'com.esri.arcgis.android:arcgis-android:10.2.9'
     implementation 'com.google.android.gms:play-services-maps:11.0.2'
 
+    //search bar
+    compile 'com.miguelcatalan:materialsearchview:1.4.0'
+
 }
