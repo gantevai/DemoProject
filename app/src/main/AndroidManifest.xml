@@ -13,20 +13,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity" />
-        <activity
-            android:name=".SplashScreen"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".SplashScreen"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+
 
         </activity>
         <activity android:name=".AccountActivity.register" />
         <activity android:name=".AccountActivity.LoginActivity" />
-        <activity android:name=".AreaOnClick.PlaceList" />
+        <activity android:name=".AreaOnClick.PlaceList">
+
+        </activity>
         <activity android:name=".AreaOnClick.PlaceDescription" />
         <activity android:name=".Maps.SearchLocationActivity" />
         <activity android:name=".GoogleMaps.GoogleMapsActivity">

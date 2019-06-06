@@ -2,6 +2,7 @@ package com.example.acer.demoproject.GoogleMaps;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -28,10 +29,15 @@ public class GoogleMapsActivity extends AppCompatActivity implements OnMapReadyC
     String directionMode;
     Polyline currentPolyline;
     int clickCount = 0;
+    Double place_lat,place_long;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        destinationLatLng = new LatLng(27.7105, 85.3487);
+
+        Intent intent = getIntent();
+        place_lat = Double.parseDouble(intent.getStringExtra("place_lat"));
+        place_long = Double.parseDouble(intent.getStringExtra("place_long"));
+        destinationLatLng = new LatLng(place_lat, place_long);
         directionMode = "driving";
 
         try {

@@ -38,10 +38,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-//                User user = new User(null, null);
-//                userLocalStore.setUserLoggedIn(true);
-//                userLocalStore.storeUserData(user);
-
                 final String username = unameEditText.getText().toString();
                 final String password = pwEditText.getText().toString();
 
@@ -105,7 +101,6 @@ public class LoginActivity extends AppCompatActivity {
         unameEditText = (EditText) findViewById(R.id.unameEditText);
         pwEditText = (EditText) findViewById(R.id.pwEditText);
         registerLink = (TextView) findViewById(R.id.registerlinkTextView);
-//        userLocalStore = new UserLocalStore(this);
     }
 
 }

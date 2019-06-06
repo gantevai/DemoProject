@@ -76,7 +76,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     private void initSpinner() {
-        //userLocalStore = new UserLocalStore(this);
         areaSpinner = (Spinner) findViewById(R.id.selectAreaSpinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.area_StringArray, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

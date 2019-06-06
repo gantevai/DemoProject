@@ -16,6 +16,7 @@ import com.example.acer.demoproject.Adapter.RelatedAreaRecyclerViewAdapter;
 import com.example.acer.demoproject.GoogleMaps.GoogleMapsActivity;
 import com.example.acer.demoproject.Maps.SearchLocationActivity;
 import com.example.acer.demoproject.R;
+import com.squareup.picasso.Picasso;
 
 public class PlaceDescription extends AppCompatActivity {
     //Declarations
@@ -28,20 +29,28 @@ public class PlaceDescription extends AppCompatActivity {
     private Button backBtn;
     private RatingBar ratingBar;
     private Button getlocationBtn,getlocationBtn2;
-    private TextView place_description_heading;
-
+    private TextView place_description_heading,descriptionTextView;
     private int currentPage;
+
+    String place_description,place_type,title;
+    Double place_lat,place_long;
+    int place_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_place_description);
 
+        Intent intent = getIntent();
+        title = intent.getStringExtra("title_name");
+        place_id = Integer.parseInt(intent.getStringExtra("place_id"));
+        place_lat = Double.parseDouble(intent.getStringExtra("place_lat"));
+        place_long = Double.parseDouble(intent.getStringExtra("place_long"));
+        place_description = intent.getStringExtra("place_description");
+        place_type = intent.getStringExtra("place_type");
         initialize();
         initializeSlideAdapter();
         initializeRelatedPlaceRecyclerView();
-
-
 
         //OnClickListeners
         backBtn.setOnClickListener(new View.OnClickListener() {
@@ -66,22 +75,30 @@ public class PlaceDescription extends AppCompatActivity {
             }
         });
 
-        getlocationBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), SearchLocationActivity.class);
-                intent.putExtra("address",place_description_heading.getText());
-                v.getContext().startActivity(intent);
-            }
-        });
+//        getlocationBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(v.getContext(), SearchLocationActivity.class);
+//                intent.putExtra("address",place_description_heading.getText());
+//                v.getContext().startActivity(intent);
+//            }
+//        });
         getlocationBtn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), GoogleMapsActivity.class);
                 intent.putExtra("address",place_description_heading.getText());
+                intent.putExtra("place_lat", String.valueOf(place_lat));
+                intent.putExtra("place_long", String.valueOf(place_long));
+                intent.putExtra("place_description", place_description);
+                intent.putExtra("place_type", place_type);
                 v.getContext().startActivity(intent);
             }
         });
+
+    }
+
+    private void initializeIntent() {
 
     }
 
@@ -99,7 +116,7 @@ public class PlaceDescription extends AppCompatActivity {
     }
 
     private void initializeSlideAdapter() {
-        sliderAdapter = new PlaceDescriptionSliderAdapter(this);
+        sliderAdapter = new PlaceDescriptionSliderAdapter(place_id,this);
         place_descriptionViewPager.setAdapter(sliderAdapter);
         addDotsIndicator(0);
         place_descriptionViewPager.addOnPageChangeListener(viewListener);
@@ -113,9 +130,13 @@ public class PlaceDescription extends AppCompatActivity {
         backBtn = (Button) findViewById(R.id.backBtn);
         nextBtn = (Button) findViewById(R.id.nextBtn);
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
-        getlocationBtn = (Button) findViewById(R.id.getlocationBtn);
+//        getlocationBtn = (Button) findViewById(R.id.getlocationBtn);
         getlocationBtn2 = (Button) findViewById(R.id.getlocationBtn2);
         place_description_heading = (TextView) findViewById(R.id.place_description_heading);
+        descriptionTextView = (TextView) findViewById(R.id.descriptionTextView);
+
+        place_description_heading.setText(title);
+        descriptionTextView.setText(place_description);
     }
 
     public void addDotsIndicator(int position) {

@@ -12,7 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.bumptech.glide.Glide;
+//import com.bumptech.glide.Glide;
 import com.example.acer.demoproject.AreaOnClick.PlaceList;
 import com.example.acer.demoproject.MainActivity;
 import com.example.acer.demoproject.Model.PostAreaRecyclerView;

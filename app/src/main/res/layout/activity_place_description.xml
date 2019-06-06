@@ -11,7 +11,6 @@
         android:id="@+id/place_description_heading"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Pashupatinath Temple"
         android:textAlignment="center"
         android:textColor="@color/colorText1"
         android:textSize="18dp" />
@@ -70,7 +69,7 @@
         android:scaleY="0.7"
                 />
 
-    <Button
+    <!--<Button
         android:id="@+id/getlocationBtn"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
@@ -79,22 +78,43 @@
         android:text="Get Location"
         android:textSize="12sp"
         android:background="@color/colorText2"/>
+        -->
 
     <Button
         android:id="@+id/getlocationBtn2"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/getlocationBtn"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/ratingBar"
         android:background="@color/colorText2"
         android:text="googleLocation"
         android:textSize="12sp" />
 
     <TextView
+        android:id="@+id/description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ratingBar"
+        android:layout_alignParentStart="true"
+        android:text="Description"
+        android:textAlignment="center"
+        android:textColor="@color/colorText1"
+        android:textSize="18dp" />
+
+    <TextView
+        android:id="@+id/descriptionTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/description"
+        android:layout_alignParentStart="true">
+
+    </TextView>
+
+    <TextView
         android:id="@+id/related_placesTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/related_placesRecyclerView"
+        android:layout_below="@+id/descriptionTextView"
         android:layout_alignParentStart="true"
         android:text="Related Places"
         android:textAlignment="center"
@@ -104,7 +124,8 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/related_placesRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="300px"
+        android:layout_below="@+id/related_placesTextView"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="12dp">
