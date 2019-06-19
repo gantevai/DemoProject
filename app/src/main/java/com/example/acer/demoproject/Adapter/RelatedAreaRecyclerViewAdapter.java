@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.example.acer.demoproject.AreaOnClick.PlaceDescription;
 import com.example.acer.demoproject.R;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by Acer on 5/1/2019.
@@ -40,8 +41,9 @@ public class RelatedAreaRecyclerViewAdapter extends RecyclerView.Adapter<Related
     public void onBindViewHolder(ImageViewHolder holder, int position) {
         Log.d(TAG,"onBindViewHolder:called");
         int image_id = images[position];
+        String image_url= "http://pasang1422.000webhostapp.com/place_images/"+String.valueOf(image_id)+".png";
         final String title_name = titles[position];
-        holder.image.setImageResource(image_id);
+        Picasso.get().load(image_url).into(holder.getImage());
         holder.title.setText(title_name);
 
         holder.image.setOnClickListener(new View.OnClickListener() {
@@ -68,6 +70,10 @@ public class RelatedAreaRecyclerViewAdapter extends RecyclerView.Adapter<Related
             super(itemView);
             image = itemView.findViewById(R.id.areaImageView);
             title = itemView.findViewById(R.id.areaTextView);
+        }
+
+        public ImageView getImage() {
+            return this.image;
         }
     }
 }
