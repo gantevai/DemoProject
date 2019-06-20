@@ -1,5 +1,6 @@
 package com.example.acer.demoproject.Adapter;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -11,8 +12,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.acer.demoproject.AreaOnClick.PlaceDescription;
+import com.example.acer.demoproject.Model.RecommendedPlaces;
 import com.example.acer.demoproject.R;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 /**
  * Created by Acer on 5/1/2019.
@@ -20,13 +24,12 @@ import com.squareup.picasso.Picasso;
 
 public class RelatedAreaRecyclerViewAdapter extends RecyclerView.Adapter<RelatedAreaRecyclerViewAdapter.ImageViewHolder>{
     private static final String TAG = "RecommendedAdapter";  // for debugging
+    private List<RecommendedPlaces> places;
+    private Context context;
 
-    private int[] images;
-    private String[] titles;
-
-    public RelatedAreaRecyclerViewAdapter(int[] images, String[] titles) {
-        this.images = images;
-        this.titles = titles;
+    public RelatedAreaRecyclerViewAdapter(List<RecommendedPlaces> places, Context context) {
+        this.places = places;
+        this.context= context;
     }
 
     @Override
@@ -38,20 +41,27 @@ public class RelatedAreaRecyclerViewAdapter extends RecyclerView.Adapter<Related
     }
 
     @Override
-    public void onBindViewHolder(ImageViewHolder holder, int position) {
+    public void onBindViewHolder(ImageViewHolder holder, final int position) {
         Log.d(TAG,"onBindViewHolder:called");
-        int image_id = images[position];
-        String image_url= "http://pasang1422.000webhostapp.com/place_images/"+String.valueOf(image_id)+".png";
-        final String title_name = titles[position];
-        Picasso.get().load(image_url).into(holder.getImage());
-        holder.title.setText(title_name);
+        final RecommendedPlaces recPlaces = places.get(position);
+        Picasso.get().load(recPlaces.getImage_Url())
+                .into(holder.getImage());
+        holder.title.setText(recPlaces.getTitle());
 
         holder.image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG,"onClick: clicked on an image" +title_name);
-                Toast.makeText(v.getContext(),title_name,Toast.LENGTH_SHORT).show();
+                RecommendedPlaces place1 = places.get(position);
                 Intent intent = new Intent(v.getContext(), PlaceDescription.class);
+                intent.putExtra("image_url", place1.getImage_Url());
+                intent.putExtra("title_name", place1.getTitle());
+                intent.putExtra("place_id", String.valueOf(place1.getPlace_id()));
+                intent.putExtra("place_description", place1.getPlace_description());
+                intent.putExtra("place_type", place1.getPlace_type());
+                intent.putExtra("place_lat", String.valueOf(place1.getPlaceLat()));
+                intent.putExtra("place_long", String.valueOf(place1.getPlaceLong()));
+                Log.d(TAG,"onClick: clicked on an image" +recPlaces.placeName);
+                Toast.makeText(v.getContext(),recPlaces.placeName,Toast.LENGTH_SHORT).show();
                 v.getContext().startActivity(intent);
             }
         });
@@ -59,7 +69,7 @@ public class RelatedAreaRecyclerViewAdapter extends RecyclerView.Adapter<Related
 
     @Override
     public int getItemCount() {
-        return images.length;
+        return places.size();
     }
 
     public class ImageViewHolder extends RecyclerView.ViewHolder{
@@ -76,5 +86,6 @@ public class RelatedAreaRecyclerViewAdapter extends RecyclerView.Adapter<Related
             return this.image;
         }
     }
+
 }
 

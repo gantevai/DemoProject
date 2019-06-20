@@ -58,11 +58,13 @@ public class LoginActivity extends AppCompatActivity {
                                 if (success) {
                                     String name = jsonResponse.getString("name");
                                     String address = jsonResponse.getString("address");
+                                    int userID = jsonResponse.getInt("userID");
 
                                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                     intent.putExtra("name", name);
                                     intent.putExtra("username", username);
                                     intent.putExtra("address", address);
+                                    intent.putExtra("userID", String.valueOf(userID));
                                     LoginActivity.this.startActivity(intent);
                                 } else {
                                     AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
