@@ -51,6 +51,7 @@ public class register extends AppCompatActivity {
                                 JSONObject jsonResponse = new JSONObject(response);
                                 boolean success = jsonResponse.getBoolean("success");
                                 if (success) {
+                                    Toast.makeText(getApplicationContext(), "Registration successful!!!", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(register.this, LoginActivity.class);
                                     register.this.startActivity(intent);
                                 } else {

@@ -50,32 +50,34 @@ public class GoogleMapsActivity extends AppCompatActivity implements OnMapReadyC
             btnGetDirection.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    clickCount++;
-                    if (clickCount > totalKeys){
-                        Toast.makeText(getApplicationContext(), "ALL API KEY USED", Toast.LENGTH_SHORT).show();
-                    }
-
-                    switch (clickCount) {
-                        case 1:
-                            apiKey = getString(R.string.google_maps_key1);
-                            break;
-                        case 2:
-                            apiKey = getString(R.string.google_maps_key2);
-                            break;
-                        case 3:
-                            apiKey = getString(R.string.google_maps_key3);
-                            break;
-                        case 4:
-                            apiKey = getString(R.string.google_maps_key4);
-                            break;
-                        case 5:
-                            apiKey = getString(R.string.google_maps_key5);
-                            break;
-                        default: break;
-                    }
-
+//                    clickCount++;
+//                    if (clickCount > totalKeys){
+//                        Toast.makeText(getApplicationContext(), "ALL API KEY USED", Toast.LENGTH_SHORT).show();
+//                    }
+//
+//                    switch (clickCount) {
+//                        case 1:
+//                            apiKey = getString(R.string.google_maps_key);
+//                            break;
+//                        case 2:
+//                            apiKey = getString(R.string.google_maps_key);
+//                            break;
+//                        case 3:
+//                            apiKey = getString(R.string.google_maps_key);
+//                            break;
+//                        case 4:
+//                            apiKey = getString(R.string.google_maps_key);
+//                            break;
+//                        case 5:
+//                            apiKey = getString(R.string.google_maps_key);
+//                            break;
+//                        default: break;
+//                    }
+                    apiKey = getString(R.string.google_maps_key);
                     Location myPosition = MapHelper.GetLastKnownLocation(GoogleMapsActivity.this);
-                    String url = MapHelper.GetDirectionApiUrl(new LatLng(myPosition.getLatitude(), myPosition.getLongitude()), destinationLatLng, directionMode, apiKey);
+                    double tempLat = myPosition.getLatitude();
+                    double tempLong = myPosition.getLongitude();
+                    String url = MapHelper.GetDirectionApiUrl(new LatLng(tempLat, tempLong), destinationLatLng, directionMode, apiKey);
                     new FetchURL(GoogleMapsActivity.this).execute(url, directionMode);
                 }
             });

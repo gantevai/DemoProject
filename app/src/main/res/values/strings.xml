@@ -19,10 +19,11 @@
     <string name="google_maps_key2">AIzaSyDxgNUD8rHGigLfwhSmErhNQuPYHsbe9-w</string>
     <string name="google_maps_key4">AIzaSyDTrZPY-IqwzwXWWhZ6y1syOHuNVbIFX9s</string>
     <string name="google_maps_key5">AIzaSyBaxD7WfU4Lj2H-ZNCHJQOFxWja4VY_ekU</string>
+    <string name="google_maps_key">AIzaSyDJ5YrHe6GorQ8BVPtT_gsmTM6ElhZwEHY</string>
 
     <string-array name="area_StringArray">
-        <item>Kathmandu</item>
-        <item>Bhaktapur</item>
-        <item>Lalitpur</item>
+        <item>Bagmati</item>
+        <item>Janakpur</item>
+        <item>Gandaki</item>
     </string-array>
 </resources>

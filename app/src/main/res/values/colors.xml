@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#1A242E</color>
-    <color name="colorPrimaryDark">#1A242E</color>
+    <color name="colorPrimary">#fd5a80a6</color>
+    <color name="colorPrimaryDark">#fd5a80a6</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="backgroundColor">#1A242E</color>
+    <color name="backgroundColor">#FFFFFF</color>
     <color name="editTextBackgroundColor">#f987a2f2</color>
     <color name="colorText1">#BFBFBF</color>
     <color name="colorText2">#fd5a80a6</color>
     <color name="white">#FFFFFF</color>
     <color name="black_overlay">#66000000</color>
+    <color name="black">#000000</color>
+    <color name="ali_dherai_black">#515151</color>
+    <color name="halkaa_black">#A4A4A4</color>
+
 </resources>

@@ -11,10 +11,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +37,7 @@ import com.example.acer.demoproject.AreaOnClick.PlaceDescription;
 import com.example.acer.demoproject.Model.RecommendedPlaces;
 import com.example.acer.demoproject.Model.Users;
 import com.example.acer.demoproject.RecommendedAreaActivity.RecommendedAreaRequest;
+import com.example.acer.demoproject.SearchActivity.SenderReceiver;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -50,15 +54,17 @@ import java.util.PriorityQueue;
 import java.util.Set;
 
 import static java.util.stream.Collectors.toMap;
-//import com.example.acer.demoproject.Model.User;
-//import com.example.acer.demoproject.Model.UserLocalStore;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, NavigationView.OnNavigationItemSelectedListener {
-    // UserLocalStore userLocalStore;
     DrawerLayout nav_drawerLayout;
     ActionBarDrawerToggle nav_toggle;
     Spinner areaSpinner;
     NavigationView navigationView;
+    //Search ko lagi
+    String urlAddress = "http://pasang1422.000webhostapp.com/searcher.php";
+    SearchView searchView;
+    ListView listView;
+    ImageView noDataImageView, noNetworkImageView;
 
     List<RecommendedPlaces> placeList;
     public RecyclerView recyclerView;
@@ -66,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private String query;
     private RequestQueue queue;
     String username, name, address;
-    int userID, placeLength, userLength, totalNeighbors = 2, placeToRate;
+    int userID, placeLength, userLength, placeToRate;
     double[][] ratingMatrix;
     HashMap<Integer, Double> predictedRating = new HashMap<>();
 
@@ -87,11 +93,35 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         address = intent.getStringExtra("address");
         userID = Integer.parseInt(intent.getStringExtra("userID"));
 
+        initSearchBar();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                SenderReceiver senderReceiver = new SenderReceiver(MainActivity.this,userID,urlAddress,query,listView,noDataImageView,noNetworkImageView);
+                senderReceiver.execute();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String query) {
+                SenderReceiver senderReceiver = new SenderReceiver(MainActivity.this,userID,urlAddress,query,listView,noDataImageView,noNetworkImageView);
+                senderReceiver.execute();
+                return false;
+            }
+        });
         initSpinner();
         initNavigationView(name, username);
         initAreaRecyclerView();
         initRecommendedAreaRecyclerView();
 
+
+    }
+
+    private void initSearchBar() {
+        listView = (ListView) findViewById(R.id.search_content_ListView);
+        searchView = (SearchView) findViewById(R.id.searchView);
+        noDataImageView = (ImageView) findViewById(R.id.search_content_no_dataImageView);
+        noNetworkImageView = (ImageView) findViewById(R.id.search_content_no_serverImageView);
 
     }
 
@@ -127,13 +157,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         RecyclerView recyclerView = findViewById(R.id.areaRecyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
-        AreaRecyclerViewAdapter adapter = new AreaRecyclerViewAdapter(images, titles);
+        AreaRecyclerViewAdapter adapter = new AreaRecyclerViewAdapter(images, titles,userID);
         recyclerView.setAdapter(adapter);
     }
 
     private void initRecommendedAreaRecyclerView() {
         final String retreiveRatingURL = "http://pasang1422.000webhostapp.com/retreive_rating.php";
-        query = "select place_id,placeName,place_description,placeType,placeLat,placeLong from places where ";
+        query = "select place_id,placeName,place_description,placeType,placeLat,placeLong,rating from places where ";
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, retreiveRatingURL, new Response.Listener<String>() {
             @Override
@@ -144,6 +174,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     placeLength = ratingsJSONObject.getInt("place_count");
                     userLength = ratingsJSONObject.getInt("user_count");
                     ratingMatrix = new double[userLength][placeLength];
+                    boolean similar = true;
 
                     for (int i = 0; i < ratings.length(); i++) {
                         if (i > 0)
@@ -161,6 +192,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     }
 
                     for (placeToRate = 0; placeToRate < placeLength; placeToRate++) {
+                        int knn=5;
                         if (user[userID - 1].ratedItem[placeToRate] == false) {
 
                             HashMap<Integer, Double> similarAndRated = new HashMap<>();
@@ -168,10 +200,21 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                             for (int i = 0; i < userLength; i++) {
                                 if (i != userID - 1) {
                                     if (user[i].ratedItem[placeToRate]) {
-                                        similarAndRated.put(i + 1, getUserSimilarity(ratingMatrix[userID - 1], ratingMatrix[i]));
+                                        double sim = getUserSimilarity(ratingMatrix[userID - 1], ratingMatrix[i]);
+                                        if(sim>0){
+                                            similarAndRated.put(i + 1,sim);
+                                            knn--;
+                                            if(knn==0)
+                                                break;
+                                        }
                                     }
                                 }
                             }
+                            if(similarAndRated.isEmpty()){
+                                similar = false;
+                                break;
+                            }
+
 
                             HashMap<Integer, Double> similarRatedAndSorted = similarAndRated
                                     .entrySet()
@@ -184,33 +227,38 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                             System.out.println("map after sorting by values in descending order: "
                                     + similarRatedAndSorted);
 
-                            predictedRating.put(placeToRate + 1, getPredictedValue(similarRatedAndSorted, user, placeToRate, totalNeighbors));
+                            predictedRating.put(placeToRate + 1, getPredictedValue(similarRatedAndSorted, user, placeToRate));
                         }
 
                     }
 
+                    if(similar){
+                        HashMap<Integer, Double> predictedSortedRated = predictedRating
+                                .entrySet()
+                                .stream()
+                                .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
+                                .collect(
+                                        toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2,
+                                                LinkedHashMap::new));
 
-                    HashMap<Integer, Double> predictedSortedRated = predictedRating
-                            .entrySet()
-                            .stream()
-                            .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
-                            .collect(
-                                    toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2,
-                                            LinkedHashMap::new));
-
-                    Set<Integer> keys = predictedSortedRated.keySet();
-                    int count =0;
-                    for (Integer key : keys) {
-                        query += String.format("place_id = %d", key);
-                        if (count < predictedSortedRated.size()-1) {
-                            query += " or ";
-                        } else {
-                            query += ";";
-                            break;
+                        Set<Integer> keys = predictedSortedRated.keySet();
+                        int count =0;
+                        for (Integer key : keys) {
+                            query += String.format("place_id = %d", key);
+                            if (count < predictedSortedRated.size()-1) {
+                                query += " or ";
+                            } else {
+                                query += ";";
+                                break;
+                            }
+                            count++;
                         }
-                        count++;
+                        show(query);
                     }
-                    show(query);
+                    else{
+                        Toast.makeText(getApplicationContext(), "No similar users!!!", Toast.LENGTH_SHORT).show();
+                    }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -275,33 +323,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         return false;
     }
 
-    private static <K, V extends Comparable<? super V>> List<Map.Entry<K, V>>
-    findGreatest(Map<K, V> map, int n) {
-        Comparator<? super Map.Entry<K, V>> comparator =
-                new Comparator<Map.Entry<K, V>>() {
-                    @Override
-                    public int compare(Map.Entry<K, V> e0, Map.Entry<K, V> e1) {
-                        V v0 = e0.getValue();
-                        V v1 = e1.getValue();
-                        return v0.compareTo(v1);
-                    }
-                };
-        PriorityQueue<Map.Entry<K, V>> highest =
-                new PriorityQueue<Map.Entry<K, V>>(n, comparator);
-        for (Map.Entry<K, V> entry : map.entrySet()) {
-            highest.offer(entry);
-            while (highest.size() > n) {
-                highest.poll();
-            }
-        }
-
-        List<Map.Entry<K, V>> result = new ArrayList<Map.Entry<K, V>>();
-        while (highest.size() > 0) {
-            result.add(highest.poll());
-        }
-        return result;
-    }
-
     public static double getUserSimilarity(double[] x, double[] y) {
 
         double avgX;
@@ -344,18 +365,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         return simValue;
     }
 
-    public static double getPredictedValue(HashMap<Integer, Double> similarRatedAndSorted, Users[] user, int itemToRate, int totalNeighbors) {
+    public static double getPredictedValue(HashMap<Integer, Double> similarRatedAndSorted, Users[] user, int itemToRate) {
         double predictedRating;
         double topFormula = 0, lowerFormula = 0;
-        int count = 0;
         Set<Integer> keys = similarRatedAndSorted.keySet();
         for (Integer key : keys) {
-            count++;
             topFormula += similarRatedAndSorted.get(key) * user[key - 1].ratesOfItem[itemToRate];
             lowerFormula += similarRatedAndSorted.get(key);
-            if (count == totalNeighbors) {
-                break;
-            }
         }
         predictedRating = topFormula / lowerFormula;
         return predictedRating;
@@ -379,12 +395,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                                     jsonObject.getString("place_description"),
                                     jsonObject.getString("placeType"),
                                     jsonObject.getDouble("placeLat"),
-                                    jsonObject.getDouble("placeLong")
+                                    jsonObject.getDouble("placeLong"),
+                                    jsonObject.getDouble("rating")
 
 
                             ));
                         }
-                        adapter = new RelatedAreaRecyclerViewAdapter(placeList, getApplicationContext());
+                        adapter = new RelatedAreaRecyclerViewAdapter(placeList,userID,getApplicationContext());
                         recyclerView.setAdapter(adapter);
                     } catch (JSONException e) {
                         e.printStackTrace();

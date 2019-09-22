@@ -1,73 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:padding="10dp"
     android:layout_height="match_parent"
-    android:background="@color/backgroundColor">
+    android:background="@color/backgroundColor"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:layout_margin="5dp"
+    android:elevation="5dp">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:text="Name"
-        android:layout_marginBottom="10dp"
-        android:textSize="18dp"
-        />
+        android:textColor="@color/black"
+        android:textSize="18dp" />
 
     <EditText
+        android:id="@+id/nameEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:id="@+id/nameEditText"/>
+        android:layout_marginBottom="10dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:text="Address"
-        android:layout_marginBottom="10dp"
-        android:textSize="18dp"
-        />
+        android:textColor="@color/black"
+        android:textSize="18dp" />
 
     <EditText
+        android:id="@+id/addressEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:id="@+id/addressEditText"/>
+        android:layout_marginBottom="10dp" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Username"
         android:layout_marginBottom="10dp"
-        android:textSize="18dp"
-        />
+        android:text="Username"
+        android:textColor="@color/black"
+        android:textSize="18dp" />
 
     <EditText
+        android:id="@+id/unameEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:id="@+id/unameEditText"/>
+        android:layout_marginBottom="10dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:text="Password"
-        android:textSize="18dp"/>
+        android:textColor="@color/black"
+        android:textSize="18dp" />
 
     <EditText
+        android:id="@+id/pwEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:id="@+id/pwEditText"
-        android:inputType="textPassword"/>
+        android:inputType="textPassword" />
+
     <Button
+        android:id="@+id/registerButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/registerButton"
-        android:text="Register"/>
-
-
+        android:text="Register" />
 
 
 </LinearLayout>

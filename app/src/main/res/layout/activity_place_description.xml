@@ -1,136 +1,211 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/backgroundColor"
-    tools:context="com.example.acer.demoproject.AreaOnClick.PlaceDescription">
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp">
 
-    <TextView
-        android:id="@+id/place_description_heading"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:textColor="@color/colorText1"
-        android:textSize="18dp" />
+        android:layout_margin="5dp"
+        android:background="@color/backgroundColor"
+        tools:context="com.example.acer.demoproject.AreaOnClick.PlaceDescription">
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/place_descriptionViewPager"
-        android:layout_width="match_parent"
-        android:layout_height="190dp"
+        <android.support.v7.widget.CardView
+            android:id="@+id/viewpagerCardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:elevation="5dp">
 
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/place_description_heading">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-    </android.support.v4.view.ViewPager>
+                <TextView
+                    android:id="@+id/place_description_heading"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="18dp" />
 
-    <LinearLayout
-        android:id="@+id/place_descriptionDotsLayout"
-        android:layout_width="180dp"
-        android:layout_height="40dp"
-        android:layout_below="@id/place_descriptionViewPager"
-        android:layout_marginStart="90dp"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:background="@color/colorText2"
-        >
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/place_descriptionViewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="170dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/place_description_heading"
+                    android:layout_margin="5dp">
 
+                </android.support.v4.view.ViewPager>
 
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/backBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/place_descriptionViewPager"
-        android:text="Back"
-        android:visibility="invisible"
-        android:background="@color/colorText2"/>
-
-
-    <Button
-        android:id="@+id/nextBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/place_descriptionViewPager"
-        android:text="Next"
-        android:background="@color/colorText2"/>
-
-    <RatingBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/backBtn"
-        android:id="@+id/ratingBar"
-        android:stepSize="0.5"
-        android:scaleX="0.7"
-        android:scaleY="0.7"
-                />
-
-    <!--<Button
-        android:id="@+id/getlocationBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:text="Get Location"
-        android:textSize="12sp"
-        android:background="@color/colorText2"/>
-        -->
-
-    <Button
-        android:id="@+id/getlocationBtn2"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_centerVertical="true"
-        android:layout_toEndOf="@+id/ratingBar"
-        android:background="@color/colorText2"
-        android:text="googleLocation"
-        android:textSize="12sp" />
-
-    <TextView
-        android:id="@+id/description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ratingBar"
-        android:layout_alignParentStart="true"
-        android:text="Description"
-        android:textAlignment="center"
-        android:textColor="@color/colorText1"
-        android:textSize="18dp" />
-
-    <TextView
-        android:id="@+id/descriptionTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/description"
-        android:layout_alignParentStart="true">
-
-    </TextView>
-
-    <TextView
-        android:id="@+id/related_placesTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/descriptionTextView"
-        android:layout_alignParentStart="true"
-        android:text="Related Places"
-        android:textAlignment="center"
-        android:textColor="@color/colorText1"
-        android:textSize="18dp" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/related_placesRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="300px"
-        android:layout_below="@+id/related_placesTextView"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="12dp">
-
-    </android.support.v7.widget.RecyclerView>
+                <LinearLayout
+                    android:id="@+id/place_descriptionDotsLayout"
+                    android:layout_width="190dp"
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/place_descriptionViewPager"
+                    android:layout_centerHorizontal="true"
+                    android:layout_margin="3dp"
+                    android:background="@color/colorText2"
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
 
-</RelativeLayout>
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/backBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/place_descriptionViewPager"
+                    android:layout_margin="3dp"
+                    android:background="@color/colorText2"
+                    android:text="Back"
+                    android:visibility="invisible" />
+
+
+                <Button
+                    android:id="@+id/nextBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_alignEnd="@+id/place_descriptionViewPager"
+                    android:layout_below="@+id/place_descriptionViewPager"
+                    android:layout_margin="3dp"
+                    android:background="@color/colorText2"
+                    android:text="Next" />
+
+            </RelativeLayout>
+
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/rateCardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/viewpagerCardView"
+            android:layout_margin="5dp"
+            android:elevation="5dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/rateTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginStart="35dp"
+                    android:background="@color/backgroundColor"
+                    android:text="Rate"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <RatingBar
+                    android:id="@+id/ratingBar"
+                    style="@style/RatingBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/rateTextView" />
+
+                <Button
+                    android:id="@+id/getlocationBtn2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="20dp"
+                    android:layout_toEndOf="@id/ratingBar"
+                    android:background="@color/colorText2"
+                    android:elevation="5dp"
+                    android:text="GetLocation"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+
+
+        </android.support.v7.widget.CardView>
+
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/descriptionCardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rateCardView"
+            android:layout_margin="5dp"
+            android:elevation="5dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginTop="6dp"
+                    android:text="Description"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/descriptionTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@id/description"
+                    android:layout_margin="5dp"
+                    android:background="@color/halkaa_black"
+                    android:text="This is default Description"
+                    android:textAlignment="center"
+                    android:textColor="@color/black">
+
+                </TextView>
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/relatedareaCardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/descriptionCardView"
+            android:layout_margin="5dp"
+            android:elevation="5dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/related_placesTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:text="Related Places"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="18dp" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/related_placesRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/related_placesTextView">
+
+                </android.support.v7.widget.RecyclerView>
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+    </RelativeLayout>
+</ScrollView>

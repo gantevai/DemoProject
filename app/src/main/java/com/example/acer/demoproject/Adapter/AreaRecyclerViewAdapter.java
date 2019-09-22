@@ -33,10 +33,12 @@ public class AreaRecyclerViewAdapter extends RecyclerView.Adapter<AreaRecyclerVi
 
     private int[] images;
     private String[] titles;
+    private int userID;
 
-    public AreaRecyclerViewAdapter(int[] images,String[] titles) {
+    public AreaRecyclerViewAdapter(int[] images,String[] titles,int userID) {
         this.images = images;
         this.titles = titles;
+        this.userID = userID;
     }
 
     @Override
@@ -71,6 +73,7 @@ public class AreaRecyclerViewAdapter extends RecyclerView.Adapter<AreaRecyclerVi
                 Toast.makeText(v.getContext(),title_name,Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(v.getContext(), PlaceList.class);
                 intent.putExtra("area_category",title_name);
+                intent.putExtra("userID",String.valueOf(userID));
                 v.getContext().startActivity(intent);
             }
         });

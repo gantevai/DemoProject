@@ -26,7 +26,6 @@ public class LoginActivity extends AppCompatActivity {
     Button loginBtn;
     EditText unameEditText, pwEditText;
     TextView registerLink;
-//    UserLocalStore userLocalStore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +42,9 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (username.isEmpty() && password.isEmpty())
                     Toast.makeText(getApplicationContext(), "Field should not be empty", Toast.LENGTH_SHORT).show();
-                else if(username.isEmpty())
+                else if (username.isEmpty())
                     Toast.makeText(getApplicationContext(), "Enter the Username", Toast.LENGTH_SHORT).show();
-                else if(password.isEmpty())
+                else if (password.isEmpty())
                     Toast.makeText(getApplicationContext(), "Enter the Password", Toast.LENGTH_SHORT).show();
                 else {
                     Response.Listener responseListener = new Response.Listener<String>() {

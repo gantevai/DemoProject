@@ -26,10 +26,12 @@ public class RelatedAreaRecyclerViewAdapter extends RecyclerView.Adapter<Related
     private static final String TAG = "RecommendedAdapter";  // for debugging
     private List<RecommendedPlaces> places;
     private Context context;
+    private int userID;
 
-    public RelatedAreaRecyclerViewAdapter(List<RecommendedPlaces> places, Context context) {
+    public RelatedAreaRecyclerViewAdapter(List<RecommendedPlaces> places,int userID,Context context) {
         this.places = places;
         this.context= context;
+        this.userID = userID;
     }
 
     @Override
@@ -47,6 +49,7 @@ public class RelatedAreaRecyclerViewAdapter extends RecyclerView.Adapter<Related
         Picasso.get().load(recPlaces.getImage_Url())
                 .into(holder.getImage());
         holder.title.setText(recPlaces.getTitle());
+        holder.rate.setText(String.valueOf(recPlaces.getRating_value()));
 
         holder.image.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,6 +63,8 @@ public class RelatedAreaRecyclerViewAdapter extends RecyclerView.Adapter<Related
                 intent.putExtra("place_type", place1.getPlace_type());
                 intent.putExtra("place_lat", String.valueOf(place1.getPlaceLat()));
                 intent.putExtra("place_long", String.valueOf(place1.getPlaceLong()));
+                intent.putExtra("rating_value", String.valueOf(place1.getRating_value()));
+                intent.putExtra("userID",String.valueOf(userID));
                 Log.d(TAG,"onClick: clicked on an image" +recPlaces.placeName);
                 Toast.makeText(v.getContext(),recPlaces.placeName,Toast.LENGTH_SHORT).show();
                 v.getContext().startActivity(intent);
@@ -75,11 +80,13 @@ public class RelatedAreaRecyclerViewAdapter extends RecyclerView.Adapter<Related
     public class ImageViewHolder extends RecyclerView.ViewHolder{
         ImageView image;
         TextView title;
+        TextView rate;
 
         public ImageViewHolder(View itemView){
             super(itemView);
             image = itemView.findViewById(R.id.areaImageView);
             title = itemView.findViewById(R.id.areaTextView);
+            rate = itemView.findViewById(R.id.ratingTextView);
         }
 
         public ImageView getImage() {

@@ -21,6 +21,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.acer.demoproject.AccountActivity.LoginActivity;
+import com.example.acer.demoproject.AccountActivity.register;
 import com.example.acer.demoproject.Adapter.PlaceDescriptionSliderAdapter;
 import com.example.acer.demoproject.Adapter.RecommendedAreaRecyclerViewAdapter;
 import com.example.acer.demoproject.Adapter.RelatedAreaRecyclerViewAdapter;
@@ -61,16 +62,15 @@ public class PlaceDescription extends AppCompatActivity {
     private Button nextBtn;
     private Button backBtn;
     private RatingBar ratingBar;
-    private Button getlocationBtn, getlocationBtn2;
+    private Button getlocationBtn2;
     private TextView place_description_heading, descriptionTextView;
     private int currentPage;
 
     String place_description, place_type, title;
-    Double place_lat, place_long;
+    Double place_lat, place_long,rating_value;
     double[][] ratingMatrix;
-    int selectedPlace_id;
+    int selectedPlace_id,userID;
     int placeLength, userLength;
-    int totalRecommendedPlaces = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +89,8 @@ public class PlaceDescription extends AppCompatActivity {
         place_long = Double.parseDouble(intent.getStringExtra("place_long"));
         place_description = intent.getStringExtra("place_description");
         place_type = intent.getStringExtra("place_type");
+        rating_value = Double.parseDouble(intent.getStringExtra("rating_value"));
+        userID = Integer.parseInt(intent.getStringExtra("userID"));
         initialize();
         initializeSlideAdapter();
         initializeRelatedPlaceRecyclerView();
@@ -113,7 +115,47 @@ public class PlaceDescription extends AppCompatActivity {
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                Toast.makeText(PlaceDescription.this, "Stars: " + rating, Toast.LENGTH_SHORT).show();
+
+
+                final String updateRatingURL = "http://pasang1422.000webhostapp.com/update_rating.php";
+                try {
+                    String url = String.format("%s?userId=%d&placeId=%d&rateValue=%.2f", updateRatingURL, userID,selectedPlace_id,rating);
+                    final String requestQuery = url;
+                    final StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            JSONObject jsonResponse = null;
+                            try {
+                                jsonResponse = new JSONObject(response);
+                                boolean success = jsonResponse.getBoolean("success");
+                                if (success) {
+                                    Toast.makeText(PlaceDescription.this, "Rated " + rating, Toast.LENGTH_SHORT).show();
+
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                        }
+                    }) {
+                        @Override
+                        public Map<String, String> getParams() throws AuthFailureError {
+                            Map<String, String> params = new HashMap<>();
+                            params.put("userId", String.valueOf(userID));
+                            params.put("placeId", String.valueOf(selectedPlace_id));
+                            params.put("rateValue", String.valueOf(rating));
+                            return params;
+                        }
+                    };
+                    queue.add(stringRequest);
+                } catch (Exception ex) {
+                    throw ex;
+                }
+
                 ratingBar.setRating(rating);
             }
         });
@@ -133,13 +175,9 @@ public class PlaceDescription extends AppCompatActivity {
 
     }
 
-    private void initializeIntent() {
-
-    }
-
     private void initializeRelatedPlaceRecyclerView() {
         final String retreiveRatingURL = "http://pasang1422.000webhostapp.com/retreive_rating.php";
-        query = "select place_id,placeName,place_description,placeType,placeLat,placeLong from places where ";
+        query = "select place_id,placeName,place_description,placeType,placeLat,placeLong,rating from places where ";
         StringRequest stringRequest = new StringRequest(Request.Method.GET, retreiveRatingURL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -165,22 +203,31 @@ public class PlaceDescription extends AppCompatActivity {
 
                     for (int i = 0; i < placeLength; i++) {
                         if (i != selectedPlace_id - 1) {
-                            similarity.put(i + 1, getSimilarityValue(selectedplaceRow, ratingMatrix[i]));
+                            double sim = getSimilarityValue(selectedplaceRow, ratingMatrix[i]);
+                            if(sim>0)
+                                similarity.put(i + 1,sim );
                         }
                     }
-                    List<Map.Entry<Integer, Double>> greatest = findGreatest(similarity, totalRecommendedPlaces);
-                    query += "";
-                    int count = 1;
-                    for (Map.Entry<Integer, Double> entry : greatest) {
-                        query += String.format("place_id = %d", entry.getKey());
-                        if (count <= totalRecommendedPlaces - 1) {
-                            query += " or ";
-                        } else {
-                            query += ";";
-                        }
-                        count++;
+
+                    if(similarity.isEmpty()){
+                        Toast.makeText(getApplicationContext(), "No similar places!!!", Toast.LENGTH_SHORT).show();
                     }
-                    show(query);
+                    else{
+                        List<Map.Entry<Integer, Double>> greatest = findGreatest(similarity, similarity.size());
+                        query += "";
+                        int count = 1;
+                        for (Map.Entry<Integer, Double> entry : greatest) {
+                            query += String.format("place_id = %d", entry.getKey());
+                            if (count <= similarity.size() - 1) {
+                                query += " or ";
+                            } else {
+                                query += ";";
+                            }
+                            count++;
+                        }
+                        show(query);
+                    }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -240,12 +287,11 @@ public class PlaceDescription extends AppCompatActivity {
                                     jsonObject.getString("place_description"),
                                     jsonObject.getString("placeType"),
                                     jsonObject.getDouble("placeLat"),
-                                    jsonObject.getDouble("placeLong")
-
-
+                                    jsonObject.getDouble("placeLong"),
+                                    jsonObject.getDouble("rating")
                             ));
                         }
-                        adapter = new RelatedAreaRecyclerViewAdapter(placeList, getApplicationContext());
+                        adapter = new RelatedAreaRecyclerViewAdapter(placeList,userID,getApplicationContext());
                         recyclerView.setAdapter(adapter);
                     } catch (JSONException e) {
                         e.printStackTrace();

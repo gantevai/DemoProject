@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:padding="10dp"
     android:layout_height="match_parent"
-    android:background="@color/backgroundColor">
+    android:background="@color/backgroundColor"
+    android:orientation="vertical"
+    android:padding="10dp">
 
     <ImageView
+        android:id="@+id/imageView"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="47dp"
-        android:src="@mipmap/logo"
-        android:id="@+id/imageView" />
+        android:src="@mipmap/logo" />
 
 
     <EditText
@@ -24,11 +23,11 @@
         android:layout_below="@+id/imageView"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="52dp"
-        android:hint="Username"
-        android:textSize="18sp"
+        android:background="@color/colorText2"
         android:drawableLeft="@drawable/ic_action_username"
-        android:textColor="@color/colorPrimary"
-        android:background="@color/editTextBackgroundColor"/>
+        android:hint="Username"
+        android:textColor="@color/black"
+        android:textSize="18sp" />
 
     <EditText
         android:id="@+id/pwEditText"
@@ -37,12 +36,12 @@
         android:layout_alignStart="@+id/unameEditText"
         android:layout_below="@+id/unameEditText"
         android:layout_marginTop="25dp"
-        android:inputType="textPassword"
-        android:drawableLeft="@drawable/ic_action_name"
+        android:background="@color/colorText2"
+        android:drawableLeft="@drawable/ic_action_pwd"
         android:hint="Password"
-        android:textColor="@color/colorPrimary"
-        android:textSize="18sp"
-        android:background="@color/editTextBackgroundColor"/>
+        android:inputType="textPassword"
+        android:textColor="@color/black"
+        android:textSize="18sp" />
 
     <Button
         android:id="@+id/loginButton"
@@ -51,9 +50,8 @@
         android:layout_alignStart="@+id/imageView"
         android:layout_below="@+id/pwEditText"
         android:layout_marginTop="31dp"
-        android:text="Login"
         android:background="@color/colorText2"
-        />
+        android:text="Login" />
 
     <TextView
         android:id="@+id/registerlinkTextView"
@@ -66,7 +64,7 @@
         android:clickable="true"
         android:onClick="onClick"
         android:text="Register Now"
-        android:textColor="@color/colorText2"
+        android:textColor="@color/black"
         android:textSize="20dp"
         android:textStyle="bold" />
 

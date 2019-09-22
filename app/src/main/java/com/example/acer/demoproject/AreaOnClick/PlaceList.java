@@ -28,6 +28,8 @@ public class PlaceList extends AppCompatActivity {
     String[] titles, subtitles,placeDescription,placeType;
     Double[] placeLat,placeLong;
     int[] place_id;
+    Double[] ratingValue;
+    int userID;
     ArrayList<String> imagesUrl;
     Context context;
     private static final String IMAGE_URL = "http://pasang1422.000webhostapp.com/place_images/";
@@ -45,6 +47,7 @@ public class PlaceList extends AppCompatActivity {
 
         Intent intent = getIntent();
         String area_category = intent.getStringExtra("area_category");
+        userID = Integer.parseInt(intent.getStringExtra("userID"));
         if(area_category.equalsIgnoreCase("Religious Places")) {
             PLACE_URL = RELIGIOUS_PLACE_URL;
         }
@@ -82,6 +85,7 @@ public class PlaceList extends AppCompatActivity {
                     placeType = new String[places.length()];
                     placeLat = new Double[places.length()];
                     placeLong = new Double[places.length()];
+                    ratingValue = new Double[places.length()];
 
                     for (int i = 0; i < places.length(); i++) {
                         JSONObject placeObject = places.getJSONObject(i);
@@ -94,10 +98,11 @@ public class PlaceList extends AppCompatActivity {
                         placeType[i] = placeObject.getString("placeType");
                         String temporary_url = IMAGE_URL + String.valueOf(place_id[i]) + ".png";
                         subtitles[i] = placeObject.getString("place_region");
+                        ratingValue[i]= placeObject.getDouble("rating");
                         imagesUrl.add(temporary_url);
                     }
                     PlaceListRecyclerViewAdapter adapter = new PlaceListRecyclerViewAdapter(
-                            imagesUrl, titles, subtitles,place_id,placeLat,placeLong,placeDescription,placeType,context);
+                            imagesUrl, titles, subtitles,place_id,placeLat,placeLong,placeDescription,placeType,ratingValue,userID,context);
                     recyclerView.setAdapter(adapter);
                 } catch (JSONException e) {
                     e.printStackTrace();

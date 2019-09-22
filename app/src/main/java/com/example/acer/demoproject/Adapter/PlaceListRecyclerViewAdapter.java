@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,13 +31,14 @@ public class PlaceListRecyclerViewAdapter extends RecyclerView.Adapter<PlaceList
 
     ArrayList<String> imagesUrl;
     private String[] titles,subtitles,placeDescription,placeType;
-    private Double[] placeLat,placeLong;
+    private Double[] placeLat,placeLong,ratingValue;
     private int[] place_id;
+    private int userID;
     Context context;
 
     public PlaceListRecyclerViewAdapter(ArrayList<String> imagesUrl, String[] titles,
                                         String[] subtitles, int[] place_id,Double[] placeLat, Double[] placeLong, String[] placeDescription,
-                                        String[] placeType, Context context) {
+                                        String[] placeType,Double[] ratingValue,int userID, Context context) {
         this.imagesUrl = imagesUrl;
         this.titles = titles;
         this.subtitles = subtitles;
@@ -46,6 +48,8 @@ public class PlaceListRecyclerViewAdapter extends RecyclerView.Adapter<PlaceList
         this.placeDescription = placeDescription;
         this.placeType = placeType;
         this.context = context;
+        this.ratingValue= ratingValue;
+        this.userID = userID;
     }
 
 
@@ -65,13 +69,12 @@ public class PlaceListRecyclerViewAdapter extends RecyclerView.Adapter<PlaceList
         final String place_type = placeType[position];
         final Double place_lat = placeLat[position];
         final Double place_long = placeLong[position];
-//        Glide.with(this.context)
-//                .load(image_url)
-//                .diskCacheStrategy(DiskCacheStrategy.ALL)
-//                .into(holder.getImage());
+        final Double rating_value = ratingValue[position];
+
         Picasso.get().load(image_url).into(holder.getImage());
         holder.titles.setText(title_name);
         holder.subtitles.setText(subtitle_name);
+        holder.rating.setRating(Float.parseFloat(String.valueOf(rating_value)));
 
         holder.images.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,6 +89,9 @@ public class PlaceListRecyclerViewAdapter extends RecyclerView.Adapter<PlaceList
                 intent.putExtra("place_long", String.valueOf(place_long));
                 intent.putExtra("place_description", place_description);
                 intent.putExtra("place_type", place_type);
+                intent.putExtra("rating_value", String.valueOf(rating_value));
+                intent.putExtra("userID", String.valueOf(userID));
+
                 v.getContext().startActivity(intent);
             }
         });
@@ -101,12 +107,14 @@ public class PlaceListRecyclerViewAdapter extends RecyclerView.Adapter<PlaceList
         ImageView images;
         TextView titles;
         TextView subtitles;
+        RatingBar rating;
 
         public ImageViewHolder(View itemView) {
             super(itemView);
             images = itemView.findViewById(R.id.place_list_imageview);
             titles = itemView.findViewById(R.id.place_list_textview);
             subtitles = itemView.findViewById(R.id.place_list_textview2);
+            rating = itemView.findViewById(R.id.place_list_ratingbar);
         }
 
         public ImageView getImage() {

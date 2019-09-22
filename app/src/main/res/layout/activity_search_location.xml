@@ -8,11 +8,11 @@
 
     <com.esri.android.map.MapView
         android:id="@+id/map"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
         mapoptions.MapType="Streets"
-        mapoptions.ZoomLevel="8">
-       <!-- mapoptions.center="34.056215, -117.195668"-->
+        mapoptions.ZoomLevel="8"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+        <!-- mapoptions.center="34.056215, -117.195668"-->
 
     </com.esri.android.map.MapView>
 

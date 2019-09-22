@@ -24,10 +24,12 @@ public class RecommendedAreaRecyclerViewAdapter extends RecyclerView.Adapter<Rec
 
     private int[] images;
     private String[] titles;
+    private Double[] ratings;
 
-    public RecommendedAreaRecyclerViewAdapter(int[] images, String[] titles) {
+    public RecommendedAreaRecyclerViewAdapter(int[] images, String[] titles, Double[] ratings) {
         this.images = images;
         this.titles = titles;
+        this.ratings = ratings;
     }
 
     @Override
@@ -43,8 +45,10 @@ public class RecommendedAreaRecyclerViewAdapter extends RecyclerView.Adapter<Rec
         Log.d(TAG,"onBindViewHolder:called");
         int image_id = images[position];
         final String title_name = titles[position];
+        final Double rating_value = ratings[position];
         holder.image.setImageResource(image_id);
         holder.title.setText(title_name);
+        holder.rate.setText(String.valueOf(rating_value));
 
 //        final PostAreaRecyclerView p = postList.get(position);
 //
@@ -73,12 +77,13 @@ public class RecommendedAreaRecyclerViewAdapter extends RecyclerView.Adapter<Rec
 
     public class ImageViewHolder extends RecyclerView.ViewHolder{
         ImageView image;
-        TextView title;
+        TextView title,rate;
 
         public ImageViewHolder(View itemView){
             super(itemView);
             image = itemView.findViewById(R.id.areaImageView);
             title = itemView.findViewById(R.id.areaTextView);
+            rate = itemView.findViewById(R.id.ratingTextView);
         }
     }
 }
